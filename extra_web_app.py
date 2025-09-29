@@ -745,7 +745,7 @@ all_grades.update(df_eu_grade['grade'].str.upper().tolist())
 GRADE_OPTIONS = sorted(list(all_grades))
 
 # 기본값 설정
-DEFAULT_GRADE = 'EN-S350GDHM' 
+DEFAULT_GRADE = 'EN-S350GD' 
 
 # -----------------------
 # Streamlit App Logic (이 부분이 핵심입니다.)
@@ -833,4 +833,5 @@ if st.button("계산 실행", type="primary"):
 st.markdown("---")
 st.caption("update: 2025.09.29")
 st.caption("작성자 : 포스코인터내셔널 태양광강재그룹 구자혁")
+
 
