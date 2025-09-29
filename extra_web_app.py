@@ -170,10 +170,10 @@ M450,1,99.999,70
 
 # 2) Non-EU grade extras (USD)
 non_eu_grade_csv = r"""grade,extra
-EN-S350GDHM,18
-EN-S390GDHM,18
-EN-S420GDHM,25
-EN-S450GDHM,25
+EN-S350GD,18
+EN-S390GD,18
+EN-S420GD,25
+EN-S450GD,25
 PM3HT340R,8
 PM3HT400R,16
 PM3HT440C,18
@@ -199,16 +199,16 @@ POSMAC-490,18
 POSMAC-540,25
 PM3HT270CQ,0
 PM3HT270DQ,23
-EN-DX51DHM,0
-EN-DX53DHM,23
-EN-S220GDHM,0
-EN-S250GDHM,8
-EN-S280GDHM,16
-EN-S320GDHM,17
+EN-DX51D,0
+EN-DX53D,23
+EN-S220GD,0
+EN-S250GD,8
+EN-S280GD,16
+EN-S320GD,17
 A1046H-CSA,0
 A1046H-CSB,0
 A1046H-FSA,23
-EN-S550GDHM,87
+EN-S550GD,87
 """
 
 # 3) Non-EU width extra (from,to,extra) - USD
@@ -223,16 +223,16 @@ non_eu_width_csv = r"""w_min,w_max,extra
 
 # 4) EU grade extras (euro)
 eu_grade_csv = r"""grade,extra_eur
-EN-DX51DHM,0
-EN-S220GDHM,0
-EN-S250GDHM,5
-EN-S280GDHM,15
-EN-S320GDHM,23
-EN-S350GDHM,40
-EN-S390GDHM,50
-EN-S420GDHM,56
-EN-S450GDHM,56
-EN-S550GDHM,58
+EN-DX51D,0
+EN-S220GD,0
+EN-S250GD,5
+EN-S280GD,15
+EN-S320GD,23
+EN-S350GD,40
+EN-S390GD,50
+EN-S420GD,56
+EN-S450GD,56
+EN-S550GD,58
 PM3HY550B,58
 """
 
@@ -751,8 +751,8 @@ DEFAULT_GRADE = 'EN-S350GDHM'
 # Streamlit App Logic (이 부분이 핵심입니다.)
 # -----------------------
 
-st.title("💰 소재 추가 비용 계산기 (Extra Calculator)")
-st.caption("등급, 코팅, 규격에 따른 USD/MT 추가 비용을 계산합니다.")
+st.title("💰 PosMAC EXTRA 비용 계산기 (Extra Calculator)")
+st.caption("Grade, 코팅, 사이즈에 따른 USD/MT 추가 비용을 계산합니다.")
 
 # 1. 지역 선택
 region = st.radio(
@@ -773,7 +773,7 @@ with col1:
     # ---------------------------------------------
     # st.selectbox는 목록이 길 경우 사용자가 입력할 때마다 목록을 필터링해 줍니다.
     grade_input = st.selectbox(
-        "2. Grade 등급",
+        "2. Grade 규격",
         GRADE_OPTIONS,
         # 기본값 설정: GRADE_OPTIONS 리스트에서 'EN-S350GDHM'의 인덱스를 찾아 지정합니다.
         index=GRADE_OPTIONS.index(DEFAULT_GRADE) if DEFAULT_GRADE in GRADE_OPTIONS else 0
@@ -782,7 +782,7 @@ with col2:
     coating_input = st.text_input("3. Coating 코팅", value="M120")
 with col3:
     # 너비와 두께 입력은 슬라이더 대신 숫자 입력창을 사용하는 것이 정확도에 유리
-    thickness_input = st.number_input("4. Thickness 두께 (mm)", min_value=0.3, max_value=10.0, value=0.9, step=0.01, format="%.2f")
+    thickness_input = st.number_input("4. Thickness 두께 (mm)", min_value=0.3, max_value=10.0, value=2.0, step=0.01, format="%.2f")
 with col4:
     width_input = st.number_input("5. Width 너비 (mm)", min_value=500.0, max_value=2000.0, value=1200.0, step=1.0)
     st.caption("non-EU 지역은 1200mm 초과/미만 시 보정용으로 사용됩니다.")
@@ -802,7 +802,7 @@ if st.button("계산 실행", type="primary"):
         )
 
         total_usd = result['total_usd_per_mt']
-        st.success(f"### 📈 총 추가 비용 (Total Extra): ${total_usd} USD/MT")
+        st.success(f"### 📈 총 EXTRA 비용 (Total Extra): ${total_usd} USD/MT")
         
         # 상세 내역 표시
         st.write("#### 상세 내역")
@@ -833,3 +833,4 @@ if st.button("계산 실행", type="primary"):
 st.markdown("---")
 st.caption("update: 2025.09.29")
 st.caption("작성자 : 포스코인터내셔널 태양광강재그룹 구자혁")
+
