@@ -223,18 +223,19 @@ non_eu_width_csv = r"""w_min,w_max,extra
 
 # 4) EU grade extras (euro)
 eu_grade_csv = r"""grade,extra_eur
-EN-DX51DHM,0
-EN-S220GDHM,0
-EN-S250GDHM,5
-EN-S280GDHM,15
-EN-S320GDHM,23
-EN-S350GDHM,40
-EN-S390GDHM,50
-EN-S420GDHM,56
-EN-S450GDHM,56
-EN-S550GDHM,58
+EN-DX51D,0
+EN-S220GD,0
+EN-S250GD,5
+EN-S280GD,15
+EN-S320GD,23
+EN-S350GD,40
+EN-S390GD,50
+EN-S420GD,56
+EN-S450GD,56
+EN-S550GD,58
 PM3HY550B,58
 """
+
 
 # 5) EU coating by thickness (euro)
 eu_coating_csv = r"""coating,t_min,t_max,extra_eur
