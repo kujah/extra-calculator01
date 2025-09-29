@@ -734,6 +734,20 @@ def calculate_extra(grade, coating, thickness, width=None, region="non-EU"):
 # *주의*: 이 부분도 기존 파일의 calculate_extra 함수를 변경 없이 그대로 복사합니다.
 
 # -----------------------
+# 선택 위젯을 위한 등급 목록 준비
+# -----------------------
+all_grades = set()
+# 대문자화하여 목록을 만듭니다.
+all_grades.update(df_non_eu_grade['grade'].str.upper().tolist())
+all_grades.update(df_eu_grade['grade'].str.upper().tolist())
+
+# 등급을 정렬하고 리스트로 변환합니다.
+GRADE_OPTIONS = sorted(list(all_grades))
+
+# 기본값 설정
+DEFAULT_GRADE = 'EN-S350GDHM' 
+
+# -----------------------
 # Streamlit App Logic (이 부분이 핵심입니다.)
 # -----------------------
 
@@ -754,7 +768,16 @@ st.caption("non-EU: USD 기준 | EU: EUR 기준 후 USD 환산 (환율: 1.1082)"
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    grade_input = st.text_input("2. Grade 등급", value="EN-S350GDHM")
+# ---------------------------------------------
+    # Grade 등급 입력 (자동 완성처럼 작동하는 Selectbox)
+    # ---------------------------------------------
+    # st.selectbox는 목록이 길 경우 사용자가 입력할 때마다 목록을 필터링해 줍니다.
+    grade_input = st.selectbox(
+        "2. Grade 등급",
+        GRADE_OPTIONS,
+        # 기본값 설정: GRADE_OPTIONS 리스트에서 'EN-S350GDHM'의 인덱스를 찾아 지정합니다.
+        index=GRADE_OPTIONS.index(DEFAULT_GRADE) if DEFAULT_GRADE in GRADE_OPTIONS else 0
+    )
 with col2:
     coating_input = st.text_input("3. Coating 코팅", value="M120")
 with col3:
