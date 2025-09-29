@@ -223,16 +223,16 @@ non_eu_width_csv = r"""w_min,w_max,extra
 
 # 4) EU grade extras (euro)
 eu_grade_csv = r"""grade,extra_eur
-EN-DX51D,0
-EN-S220GD,0
-EN-S250GD,5
-EN-S280GD,15
-EN-S320GD,23
-EN-S350GD,40
-EN-S390GD,50
-EN-S420GD,56
-EN-S450GD,56
-EN-S550GD,58
+EN-DX51DHM,0
+EN-S220GDHM,0
+EN-S250GDHM,5
+EN-S280GDHM,15
+EN-S320GDHM,23
+EN-S350GDHM,40
+EN-S390GDHM,50
+EN-S420GDHM,56
+EN-S450GDHM,56
+EN-S550GDHM,58
 PM3HY550B,58
 """
 
@@ -587,11 +587,11 @@ def find_grade_extra_non_eu(grade_input):
     num_match = re.search(r'(\d{3,4})', g)
     if num_match:
         num = num_match.group(1)
-        # prefer EN-S{num}GDHM
+        # prefer EN-S{num}GD
         candidates = [
-            f"EN-S{num}GDHM",
-            f"S{num}GDHM",
-            f"{num}GDHM",
+            f"EN-S{num}GD",
+            f"S{num}GD",
+            f"{num}GD",
             f"S{num}GD",
             f"{num}GD",
             f"A1046H-S{num}"
@@ -620,7 +620,7 @@ def find_grade_extra_eu(grade_input):
     num_match = re.search(r'(\d{3,4})', g)
     if num_match:
         num = num_match.group(1)
-        candidates = [f"EN-S{num}GDHM", f"S{num}GDHM", f"{num}GDHM", f"S{num}GD", f"{num}GD"]
+        candidates = [f"EN-S{num}GD", f"S{num}GD", f"{num}GDHM", f"S{num}GD", f"{num}GD"]
         for c in candidates:
             rows = df_eu_grade[df_eu_grade['grade'].str.upper() == c]
             if not rows.empty:
@@ -752,7 +752,7 @@ DEFAULT_GRADE = 'EN-S350GD'
 # -----------------------
 
 st.title("💰 PosMAC EXTRA 비용 계산기 (Extra Calculator)")
-st.caption("Grade, 코팅, 사이즈에 따른 USD/MT 추가 비용을 계산합니다.")
+st.caption("Grade, 코팅량, 사이즈에 따른 USD/MT 추가 비용을 계산합니다.")
 
 # 1. 지역 선택
 region = st.radio(
@@ -775,11 +775,11 @@ with col1:
     grade_input = st.selectbox(
         "2. Grade 규격",
         GRADE_OPTIONS,
-        # 기본값 설정: GRADE_OPTIONS 리스트에서 'EN-S350GDHM'의 인덱스를 찾아 지정합니다.
+        # 기본값 설정: GRADE_OPTIONS 리스트에서 'EN-S350GD'의 인덱스를 찾아 지정합니다.
         index=GRADE_OPTIONS.index(DEFAULT_GRADE) if DEFAULT_GRADE in GRADE_OPTIONS else 0
     )
 with col2:
-    coating_input = st.text_input("3. Coating 코팅", value="M120")
+    coating_input = st.text_input("3. Coating 코팅", value="M310")
 with col3:
     # 너비와 두께 입력은 슬라이더 대신 숫자 입력창을 사용하는 것이 정확도에 유리
     thickness_input = st.number_input("4. Thickness 두께 (mm)", min_value=0.3, max_value=10.0, value=2.0, step=0.01, format="%.2f")
@@ -833,5 +833,3 @@ if st.button("계산 실행", type="primary"):
 st.markdown("---")
 st.caption("update: 2025.09.29")
 st.caption("작성자 : 포스코인터내셔널 태양광강재그룹 구자혁")
-
-
